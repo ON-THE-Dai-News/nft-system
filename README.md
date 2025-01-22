@@ -10,19 +10,15 @@ Automated NFT creation system for OTDNews AI-generated art.
 ## Setup Instructions
 
 ### JavaScript Integration Layer
-\\\ash
 cd js-integration
 npm install
 npm run dev
-\\\
 
 ### Python NFT Service
-\\\ash
 cd python-nft
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
-\\\
 
 ## Team
 - Mario: Founder/Fullstack Engineer (JavaScript/React)

@@ -1,0 +1,6 @@
+solana
+metaplex-python-sdk
+web3
+python-dotenv
+pytest
+requests

@@ -1,0 +1,30 @@
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+__pycache__/
+*.py[cod]
+venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/
+
+# Build outputs
+dist/
+build/
+
+# Testing
+coverage/
+.pytest_cache/
+
+# OS specific
+.DS_Store
+Thumbs.db
