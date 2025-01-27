@@ -1,0 +1,80 @@
+.nft-creation {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+  
+    h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+  
+    .error-message {
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      background-color: #fee2e2;
+      color: #dc2626;
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+  
+    .nft-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+  
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+  
+        label {
+          font-size: 0.875rem;
+          font-weight: 500;
+        }
+  
+        input, textarea {
+          padding: 0.75rem;
+          border: 1px solid #e5e7eb;
+          border-radius: 4px;
+          font-size: 1rem;
+          
+          &:focus {
+            outline: none;
+            border-color: $primary-color;
+            box-shadow: 0 0 0 2px rgba($primary-color, 0.1);
+          }
+        }
+  
+        textarea {
+          resize: vertical;
+          min-height: 100px;
+        }
+      }
+  
+      .submit-button {
+        margin-top: 1rem;
+        padding: 0.75rem;
+        background-color: $primary-color;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+  
+        &:hover:not(:disabled) {
+          background-color: darken($primary-color, 10%);
+        }
+  
+        &:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+      }
+    }
+  
+    @include tablet {
+      padding: 2rem;
+    }
+  }

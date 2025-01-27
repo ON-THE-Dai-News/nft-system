@@ -1,8 +1,9 @@
+import NFTCreationForm from '../components/nft/NFTCreationForm';
+
 export default function Home() {
   return (
     <div className="home-page">
-      <h2>OTDNews NFT System</h2>
-      <p>Start creating your NFTs with our automated system.</p>
+      <NFTCreationForm />
     </div>
   );
 }
