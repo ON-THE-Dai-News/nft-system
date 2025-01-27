@@ -1,18 +1,27 @@
 "use client";
 
 import { useState } from 'react';
+import ImageUpload from './ImageUpload';
 
 const NFTCreationForm = () => {
-  const [formData, setFormData] = useState({
-    title: '',
-    headline: '',
-    author: '',
-    category: '',
-    tags: '',
-    description: ''
-  });
+    const [formData, setFormData] = useState({
+        title: '',
+        headline: '',
+        author: '',
+        category: '',
+        tags: '',
+        description: '',
+        imageFile: null
+      });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+
+  const handleImageSelect = (file) => {
+    setFormData(prev => ({
+      ...prev,
+      imageFile: file
+    }));
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,6 +50,7 @@ const NFTCreationForm = () => {
   return (
     <div className="nft-creation">
       <h2>Create New NFT</h2>
+      <ImageUpload onImageSelect={handleImageSelect} />
       
       {error && (
         <div className="error-message">
