@@ -1,7 +1,13 @@
+/*====================
+     IMAGE UPLOAD
+====================*/
+// js-integration/components/nft/ImageUpload.js
+
 "use client";
 
 import { useState } from 'react';
 import { Upload, Image as ImageIcon, X } from 'lucide-react';
+import { uploadToIPFS } from '@/utils/ipfs';
 
 const ImageUpload = ({ onImageSelect }) => {
   const [preview, setPreview] = useState(null);
@@ -32,8 +38,15 @@ const ImageUpload = ({ onImageSelect }) => {
     };
     reader.readAsDataURL(file);
 
-    // Send file to parent component
-    onImageSelect(file);
+    try {
+      // Upload image to IPFS
+      const ipfsUrl = uploadToIPFS(file);
+      // Send IPFS URL to parent component
+      onImageSelect(ipfsUrl);
+    } catch (err) {
+      setError('Failed to upload image. Please try again.');
+      console.error('IPFS upload error:', err);
+    }
   };
 
   const handleRemoveImage = () => {

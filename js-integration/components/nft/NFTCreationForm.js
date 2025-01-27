@@ -1,7 +1,13 @@
+/*========================
+     NFT CREATION FORM
+========================*/
+// js-integration/components/nft/NFTCreationForm.js
+
 "use client";
 
 import { useState } from 'react';
 import ImageUpload from './ImageUpload';
+import { uploadToIPFS } from '@/utils/ipfs';
 
 const NFTCreationForm = () => {
     const [formData, setFormData] = useState({
@@ -11,15 +17,15 @@ const NFTCreationForm = () => {
         category: '',
         tags: '',
         description: '',
-        imageFile: null
+        imageUrl: ''
       });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  const handleImageSelect = (file) => {
+  const handleImageSelect = (ipfsUrl) => {
     setFormData(prev => ({
       ...prev,
-      imageFile: file
+      imageUrl: ipfsUrl
     }));
   };
 
@@ -37,8 +43,24 @@ const NFTCreationForm = () => {
     setError('');
 
     try {
-      // Here we'll add the NFT creation logic later
-      console.log('Form submitted:', formData);
+      // Prepare metadata
+      const metadata = {
+        name: formData.title,
+        description: formData.description,
+        image: formData.imageUrl,
+        attributes: [
+          { trait_type: 'Headline', value: formData.headline },
+          { trait_type: 'Author', value: formData.author },
+          { trait_type: 'Category', value: formData.category },
+          { trait_type: 'Tags', value: formData.tags }
+        ]
+      };
+
+      // Upload metadata to IPFS
+      const metadataUrl = await uploadMetadataToIPFS(metadata);
+      console.log('Metadata URL:', metadataUrl);
+
+      // TODO: Add NFT minting logic here
     } catch (err) {
       setError('Failed to create NFT. Please try again.');
       console.error('NFT creation error:', err);
