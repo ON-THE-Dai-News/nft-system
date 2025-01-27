@@ -1,4 +1,4 @@
-# OTDNews NFT System
+# NFT System
 
 Automated NFT creation system that transforms AI-generated news art into NFTs on Mode Network (Ethereum L2).
 
@@ -30,7 +30,7 @@ Automated NFT creation system that transforms AI-generated news art into NFTs on
 
 ## Project Structure
 ```
-otdnews-nft-system/
+nft-system/
 ├── src/              # Frontend/Integration layer
 │   ├── components/   # React components
 │   ├── services/     # API services
@@ -46,8 +46,8 @@ otdnews-nft-system/
 ### Development Environment
 1. Clone the repository
 ```bash
-git clone https://github.com/your-org/otdnews-nft-system.git
-cd otdnews-nft-system
+git clone https://github.com/your-org/nft-system.git
+cd nft-system
 ```
 
 2. Frontend Setup
@@ -98,12 +98,6 @@ python server/index.py
    - Update documentation
    - Request review
    - Squash and merge
-
-### Code Style
-- Follow ESLint configuration for JavaScript
-- Follow Black formatter for Python
-- Use TypeScript types where possible
-- Document all functions and components
 
 ## Team
 - **Mario:** Fullstack Engineer (System Architecture & Integration)
