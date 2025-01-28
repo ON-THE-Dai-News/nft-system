@@ -6,8 +6,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Upload, Image as ImageIcon, X } from 'lucide-react';
-import { uploadToIPFS } from '@/utils/ipfs';
+import { Upload, X } from 'lucide-react';
 
 const ImageUpload = ({ onImageSelect }) => {
   const [preview, setPreview] = useState(null);
@@ -38,15 +37,8 @@ const ImageUpload = ({ onImageSelect }) => {
     };
     reader.readAsDataURL(file);
 
-    try {
-      // Upload image to IPFS
-      const ipfsUrl = uploadToIPFS(file);
-      // Send IPFS URL to parent component
-      onImageSelect(ipfsUrl);
-    } catch (err) {
-      setError('Failed to upload image. Please try again.');
-      console.error('IPFS upload error:', err);
-    }
+    // Send file to parent component
+    onImageSelect(file);
   };
 
   const handleRemoveImage = () => {
