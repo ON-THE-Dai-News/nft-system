@@ -98,7 +98,6 @@ const NFTCreationForm = () => {
         error: '',
       }));
 
-      // Optional: You might want to store the transaction hash or redirect
       console.log('Transaction Hash:', txHash);
     } catch (err) {
       setUploadState(prev => ({

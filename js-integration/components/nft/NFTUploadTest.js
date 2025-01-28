@@ -28,12 +28,10 @@ const NFTUploadTest = () => {
     setUploadState(prev => ({ ...prev, error: null, imageStatus: 'uploading' }));
 
     try {
-      // Create form data
       const formData = new FormData();
       formData.append('file', file);
       formData.append('metadata', JSON.stringify(testMetadata));
 
-      // Upload to API route
       const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData
@@ -63,41 +61,41 @@ const NFTUploadTest = () => {
   };
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">NFT Upload Test</h2>
+    <div className="upload-container">
+      <h2 className="upload-title">NFT Upload Test</h2>
       
-      <div className="mb-6">
-        <label className="block p-6 border-2 border-dashed rounded-lg hover:border-gray-400 cursor-pointer">
+      <div className="upload-box-wrapper">
+        <label className="upload-box">
           <input
             type="file"
             onChange={handleFileUpload}
             accept="image/*"
-            className="hidden"
+            className="file-input"
           />
-          <div className="flex flex-col items-center">
-            <Upload className="w-12 h-12 mb-2" />
-            <span className="text-sm">Upload test image</span>
+          <div className="upload-box-content">
+            <Upload className="upload-icon" />
+            <span className="upload-text">Upload test image</span>
           </div>
         </label>
       </div>
 
       {uploadState.error && (
-        <div className="flex items-center p-4 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-50">
-          <AlertCircle className="h-4 w-4 mr-2" />
+        <div className="error-message">
+          <AlertCircle className="message-icon" />
           <p>{uploadState.error}</p>
         </div>
       )}
 
       {uploadState.imageStatus === 'success' && (
-        <div className="space-y-4">
-          <div className="flex items-center p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-50">
-            <Check className="h-4 w-4 mr-2" />
+        <div className="success-container">
+          <div className="success-message">
+            <Check className="message-icon" />
             <p>Upload successful!</p>
           </div>
           
-          <div className="p-4 bg-gray-50 rounded border">
-            <h3 className="font-semibold mb-2">IPFS URLs:</h3>
-            <div className="text-sm break-all">
+          <div className="ipfs-info">
+            <h3 className="ipfs-title">IPFS URLs:</h3>
+            <div className="ipfs-urls">
               <p><strong>Image:</strong> {uploadState.ipfsImageUrl}</p>
               <p><strong>Metadata:</strong> {uploadState.ipfsMetadataUrl}</p>
             </div>
