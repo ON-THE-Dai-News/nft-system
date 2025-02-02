@@ -3,7 +3,6 @@
 =======================*/
 // js-integration/utils/contract.js
 
-// utils/contract.js
 import { ethers } from 'ethers';
 import contractABI from '../contracts/OTDNewsNFT.json';
 
@@ -51,5 +50,33 @@ export const checkWalletConnection = async () => {
   } catch (error) {
     console.error('Error checking wallet connection:', error);
     return false;
+  }
+};
+
+export const getRandomAvailableNFT = async () => {
+  try {
+    if (!window.ethereum) {
+      throw new Error('Please install MetaMask or another Web3 wallet');
+    }
+
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const contract = new ethers.Contract(
+      contractAddress,
+      contractABI,
+      provider
+    );
+
+    // Get available NFTs from contract
+    const availableNFTs = await contract.getAvailableNFTs();
+    if (!availableNFTs || availableNFTs.length === 0) {
+      throw new Error('No NFTs available for minting');
+    }
+
+    // Select random NFT
+    const randomIndex = Math.floor(Math.random() * availableNFTs.length);
+    return availableNFTs[randomIndex].metadataUrl;
+  } catch (error) {
+    console.error('Error getting available NFTs:', error);
+    throw error;
   }
 };

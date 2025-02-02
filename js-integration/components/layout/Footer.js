@@ -1,3 +1,8 @@
+/*==================
+  FOOTER COMPONENT
+==================*/
+//js-integration/components/layout/Footer.js
+
 const Footer = () => {
     return (
       <footer className="footer">

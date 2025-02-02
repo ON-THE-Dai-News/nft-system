@@ -11,11 +11,15 @@ export const automateNFTCreation = async () => {
   try {
     console.log("Starting NFT automation...");
 
-    // Step 1: Fetch breaking news metadata (already in the required format)
-    const metadata = await fetchMetadata();
+    // Step 1: Generate today's date (in 'yyyy-mm-dd' format)
+    const today = new Date();
+    const date = today.toISOString().split('T')[0];  // Example: '2025-02-02'
+
+    // Step 2: Fetch breaking news metadata (already in the required format)
+    const metadata = await fetchMetadata(date);
     console.log("Fetched breaking news and metadata:", metadata);
 
-    // Step 2: Process each headline by uploading image + metadata
+    // Step 3: Process each headline by uploading image + metadata
     const updatedMetadata = [];
     
     for (const news of metadata) {
