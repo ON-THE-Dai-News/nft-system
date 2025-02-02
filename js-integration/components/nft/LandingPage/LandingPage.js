@@ -87,7 +87,7 @@ const LandingPage = () => {
                 <h1>OTDNews NFTs</h1>
                 <p className="subtitle">Collect Breaking News as NFTs</p>
 
-                <h2>== Available NFTs for Minting ==</h2>
+                <h2>== Currently Available for Minting ==</h2>
                 {isLoading ? (
                     <div className="loading-state">Loading available NFTs...</div>
                 ) : fetchError ? (

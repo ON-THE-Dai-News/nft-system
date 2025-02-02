@@ -69,6 +69,12 @@
       border-radius: 8px;
       margin: 2rem 0;
     }
+
+    .nft-card {
+        @media (min-width: 1028px){
+            width: 20rem;
+        }
+    }
   
     .nft-grid {
       display: grid;
@@ -76,6 +82,11 @@
       gap: 2rem;
       padding: 2rem 0;
       margin-bottom: 3rem;
+
+      @media (min-width: 1028px){
+        display: flex;
+        justify-content: center;
+      }
     }
   
     .mint-section {
