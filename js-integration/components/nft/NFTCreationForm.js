@@ -1,6 +1,13 @@
+/*========================
+     NFT CREATION FORM
+========================*/
+// js-integration/components/nft/NFTCreationForm.js
+
 "use client";
 
 import { useState } from 'react';
+import ImageUpload from './ImageUpload';
+import { mintNFT } from '@/utils/contract';
 
 const NFTCreationForm = () => {
   const [formData, setFormData] = useState({
@@ -9,42 +16,118 @@ const NFTCreationForm = () => {
     author: '',
     category: '',
     tags: '',
-    description: ''
+    description: '',
+    imageFile: null,
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState('');
+  const [uploadState, setUploadState] = useState({
+    isSubmitting: false,
+    error: '',
+    ipfsImageUrl: '',
+    ipfsMetadataUrl: '',
+    mintingStatus: '', // 'uploading', 'minting', 'success', 'error'
+  });
+
+  const handleImageSelect = (file) => {
+    setFormData((prev) => ({
+      ...prev,
+      imageFile: file,
+    }));
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setError('');
+    setUploadState(prev => ({
+      ...prev,
+      isSubmitting: true,
+      error: '',
+      mintingStatus: 'uploading'
+    }));
 
     try {
-      // Here we'll add the NFT creation logic later
-      console.log('Form submitted:', formData);
+      // Create form data for upload
+      const formDataForUpload = new FormData();
+      formDataForUpload.append('file', formData.imageFile);
+      
+      // Prepare metadata
+      const metadata = {
+        name: formData.title,
+        description: formData.description,
+        attributes: [
+          { trait_type: 'Headline', value: formData.headline },
+          { trait_type: 'Author', value: formData.author },
+          { trait_type: 'Category', value: formData.category },
+          { trait_type: 'Tags', value: formData.tags },
+        ],
+      };
+
+      formDataForUpload.append('metadata', JSON.stringify(metadata));
+
+      // Upload image and metadata to IPFS via API route
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formDataForUpload,
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to upload to IPFS');
+      }
+
+      const { fileUrl, metadataUrl } = await response.json();
+
+      setUploadState(prev => ({
+        ...prev,
+        ipfsImageUrl: fileUrl,
+        ipfsMetadataUrl: metadataUrl,
+        mintingStatus: 'minting'
+      }));
+
+      // Mint the NFT using the metadata URL
+      const txHash = await mintNFT(metadataUrl);
+      
+      setUploadState(prev => ({
+        ...prev,
+        mintingStatus: 'success',
+        error: '',
+      }));
+
+      console.log('Transaction Hash:', txHash);
     } catch (err) {
-      setError('Failed to create NFT. Please try again.');
+      setUploadState(prev => ({
+        ...prev,
+        error: 'Failed to create NFT. Please try again.',
+        mintingStatus: 'error',
+      }));
       console.error('NFT creation error:', err);
     } finally {
-      setIsSubmitting(false);
+      setUploadState(prev => ({
+        ...prev,
+        isSubmitting: false,
+      }));
     }
   };
 
   return (
     <div className="nft-creation">
       <h2>Create New NFT</h2>
+      <ImageUpload onImageSelect={handleImageSelect} />
       
-      {error && (
+      {uploadState.error && (
         <div className="error-message">
-          {error}
+          {uploadState.error}
+        </div>
+      )}
+
+      {uploadState.mintingStatus === 'success' && (
+        <div className="success-message">
+          NFT minted successfully!
         </div>
       )}
 
@@ -128,10 +211,28 @@ const NFTCreationForm = () => {
         <button 
           type="submit" 
           className="submit-button"
-          disabled={isSubmitting}
+          disabled={uploadState.isSubmitting}
         >
-          {isSubmitting ? 'Creating...' : 'Create NFT'}
+          {uploadState.mintingStatus === 'uploading' ? 'Uploading to IPFS...' :
+           uploadState.mintingStatus === 'minting' ? 'Minting NFT...' :
+           uploadState.isSubmitting ? 'Creating...' : 'Create NFT'}
         </button>
+
+        {(uploadState.ipfsImageUrl || uploadState.ipfsMetadataUrl) && (
+          <div className="ipfs-info">
+            <h3>IPFS URLs:</h3>
+            {uploadState.ipfsImageUrl && (
+              <p>Image: <a href={uploadState.ipfsImageUrl} target="_blank" rel="noopener noreferrer">
+                {uploadState.ipfsImageUrl}
+              </a></p>
+            )}
+            {uploadState.ipfsMetadataUrl && (
+              <p>Metadata: <a href={uploadState.ipfsMetadataUrl} target="_blank" rel="noopener noreferrer">
+                {uploadState.ipfsMetadataUrl}
+              </a></p>
+            )}
+          </div>
+        )}
       </form>
     </div>
   );
