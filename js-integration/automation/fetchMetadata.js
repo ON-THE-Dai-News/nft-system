@@ -8,8 +8,8 @@ import axios from 'axios';
 // Function to fetch the active news JSON from backend-2.0
 export const fetchMetadata = async (date) => {
   try {
-    // // Construct the URL to access the JSON file from backend-2.0 (can be changed depending on the actual storage method)
-    // const url = `http://localhost:5000/path/to/activeNewsInfo_${date}.json`; // Example URL to fetch the JSON
+    // Construct the URL to access the JSON file from backend-2.0
+    const url = `http://localhost:5000/config/backups/activeNewsInfo_${date}.json`;
 
     // Fetch the JSON from the backend service
     const response = await axios.get(url);
