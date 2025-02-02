@@ -1,22 +1,50 @@
-'use client';
-
 /*============================
     LANDING PAGE COMPONENT
 =============================*/
 // components/nft/LandingPage/LandingPage.js
 
-import { useState } from 'react';
-import { ethers } from 'ethers';
+'use client';
+
+import { useState, useEffect } from 'react';
 import { mintNFT } from '@/utils/contract';
+import NFTCard from '../NFTCard/NFTCard';
 import './LandingPage.scss';
 
 const LandingPage = () => {
+    const [availableNFTs, setAvailableNFTs] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [fetchError, setFetchError] = useState('');
     const [mintStatus, setMintStatus] = useState({
         isLoading: false,
         error: '',
         success: '',
         txHash: ''
     });
+
+    useEffect(() => {
+        fetchAvailableNFTs();
+    }, []);
+
+    const fetchAvailableNFTs = async () => {
+        setFetchError('');
+        setIsLoading(true);
+        try {
+            const response = await fetch('/api/available-nfts');
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to fetch NFTs');
+            }
+
+            setAvailableNFTs(data.nfts || []);
+        } catch (error) {
+            console.error('Error fetching NFTs:', error);
+            setFetchError(error.message || 'Failed to load available NFTs');
+            setAvailableNFTs([]);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     const handleMint = async () => {
         setMintStatus({
@@ -56,16 +84,38 @@ const LandingPage = () => {
     return (
         <div className="landing-page">
             <div className="hero-section">
-                <h1>OTD News NFTs</h1>
+                <h1>OTDNews NFTs</h1>
                 <p className="subtitle">Collect Breaking News as NFTs</p>
+
+                <h2>== Available NFTs for Minting ==</h2>
+                {isLoading ? (
+                    <div className="loading-state">Loading available NFTs...</div>
+                ) : fetchError ? (
+                    <div className="error-state">
+                        {fetchError}
+                        <button onClick={fetchAvailableNFTs} className="retry-button">
+                            Retry
+                        </button>
+                    </div>
+                ) : availableNFTs.length === 0 ? (
+                    <div className="no-nfts-state">
+                        No NFTs currently available for minting
+                    </div>
+                ) : (
+                    <div className="nft-grid">
+                        {availableNFTs.map((nft, index) => (
+                            <NFTCard key={nft.page_id || index} nft={nft} />
+                        ))}
+                    </div>
+                )}
 
                 <div className="mint-section">
                     <button
                         className={`mint-button ${mintStatus.isLoading ? 'loading' : ''}`}
                         onClick={handleMint}
-                        disabled={mintStatus.isLoading}
+                        disabled={mintStatus.isLoading || availableNFTs.length === 0}
                     >
-                        {mintStatus.isLoading ? 'Minting...' : 'Mint NFT'}
+                        {mintStatus.isLoading ? 'Minting...' : 'Mint Random NFT'}
                     </button>
 
                     {mintStatus.error && (

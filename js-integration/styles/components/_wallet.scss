@@ -1,11 +1,11 @@
 .wallet-connect {
     padding: 1rem;
     width: 100%;
-    max-width: 320px;
-    margin: 0 auto;
+    max-width: 256px;
+    margin: 0;
   
     @include tablet {
-      max-width: 360px;
+      max-width: 256px;
     }
   
     .wallet-error {
@@ -35,7 +35,7 @@
       font-size: 0.875rem;
   
       .wallet-address {
-        font-family: monospace;
+        font-family: rajdhani;
       }
     }
   

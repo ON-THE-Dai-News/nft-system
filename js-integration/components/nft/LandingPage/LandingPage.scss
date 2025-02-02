@@ -1,32 +1,81 @@
 /*========================
     LANDING PAGE STYLES
 ========================*/
-// components/LandingPage/LandingPage.scss
+// components/nft/LandingPage/LandingPage.scss
 
 .landing-page {
-    min-height: calc(100vh - 160px); // Adjust based on your header/footer height
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    min-height: calc(100vh - 160px);
     padding: 2rem;
-    background-color: #f8f9fa;
+    background-color: #09080A;
   
     .hero-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 0;
       text-align: center;
-      max-width: 800px;
-      margin: 4rem auto;
   
       h1 {
         font-size: 3.5rem;
-        margin-bottom: 1rem;
-        color: #2c3e50;
+        color: #dedede;
+        font-family: alata;
+      }
+
+      h2 {
+        color: #dedede;
       }
   
       .subtitle {
         font-size: 1.5rem;
-        color: #6c757d;
+        color: #ef8e6d;
         margin-bottom: 3rem;
       }
+    }
+  
+    .loading-state {
+      text-align: center;
+      padding: 2rem;
+      color: #666;
+      font-size: 1.2rem;
+    }
+
+    .error-state {
+      text-align: center;
+      padding: 2rem;
+      color: #dc2626;
+      background-color: #fee2e2;
+      border-radius: 8px;
+      margin: 2rem 0;
+
+      .retry-button {
+        margin-top: 1rem;
+        padding: 0.5rem 1.5rem;
+        background-color: #dc2626;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        
+        &:hover {
+          background-color: #b91c1c;
+        }
+      }
+    }
+
+    .no-nfts-state {
+      text-align: center;
+      padding: 2rem;
+      color: #666;
+      background-color: #f3f4f6;
+      border-radius: 8px;
+      margin: 2rem 0;
+    }
+  
+    .nft-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 2rem 0;
+      margin-bottom: 3rem;
     }
   
     .mint-section {
@@ -36,28 +85,19 @@
       gap: 1.5rem;
       margin-top: 2rem;
   
-      .wallet-info {
-        font-family: monospace;
-        background: #e9ecef;
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        font-size: 0.9rem;
-      }
-  
-      .connect-button,
       .mint-button {
         padding: 1rem 3rem;
         font-size: 1.2rem;
         font-weight: 600;
         border: none;
         border-radius: 8px;
-        background: #3498db;
+        background: #4B7F6D;
         color: white;
         cursor: pointer;
         transition: all 0.3s ease;
   
         &:hover:not(:disabled) {
-          background: #2980b9;
+          background: #57B635;
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
@@ -91,8 +131,8 @@
         padding: 1rem 2rem;
         border-radius: 6px;
         font-weight: 500;
-        width: 100%;
         max-width: 400px;
+        width: 100%;
   
         &.error {
           background-color: #fee2e2;
@@ -123,5 +163,25 @@
   @keyframes spinner {
     to {
       transform: translateY(-50%) rotate(360deg);
+    }
+  }
+  
+  // Media Queries
+  @media (max-width: 768px) {
+    .landing-page {
+      .hero-section {
+        h1 {
+          font-size: 2.5rem;
+        }
+  
+        .subtitle {
+          font-size: 1.25rem;
+        }
+      }
+  
+      .nft-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+      }
     }
   }

@@ -1,0 +1,77 @@
+/*====================
+    NFT CARD STYLES
+=====================*/
+// components/nft/NFTCard/NFTCard.scss
+
+.nft-card {
+    background: black;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 12px rgba(239, 142, 109, 0.15);
+    }
+  
+    &__image-container {
+      width: 100%;
+      height: 24rem;
+      overflow: hidden;
+    }
+  
+    &__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+  
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  
+    &__content {
+      padding: 1.5rem;
+    }
+  
+    &__title {
+      font-family: alata;
+      font-size: 1.25rem;
+      line-height: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #dedede;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  
+    &__category {
+      font-size: 0.875rem;
+      color: black;
+      margin: auto;
+      width: 80%;
+      background-color: #ef8e6d;
+    }
+  
+    &__description {
+      font-size: 0.9375rem;
+      color: #dedede;
+      
+      p {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-top: 1.25rem;
+        line-height: 1.5;
+        text-align: left;
+        font-weight: 600;
+      }
+    }
+  }
