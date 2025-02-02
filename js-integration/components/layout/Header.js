@@ -1,3 +1,8 @@
+/*==================
+  HEADER COMPONENT
+==================*/
+//js-integration/components/layout/Header.js
+
 "use client";
 
 import WalletConnect from '../shared/WalletConnect';  // Changed from { WalletConnect }
