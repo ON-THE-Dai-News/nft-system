@@ -85,7 +85,7 @@ const LandingPage = () => {
         <div className="landing-page">
             <div className="hero-section">
                 <h1>OTDNews NFTs</h1>
-                <p className="subtitle">Collect Breaking News as NFTs</p>
+                <p className="subtitle">COLLECT BREAKING NEWS AS NFTs</p>
 
                 <h2>== Currently Available for Minting ==</h2>
                 {isLoading ? (
@@ -99,7 +99,7 @@ const LandingPage = () => {
                     </div>
                 ) : availableNFTs.length === 0 ? (
                     <div className="no-nfts-state">
-                        No NFTs currently available for minting
+                        🛸 No NFTs currently available for minting
                     </div>
                 ) : (
                     <div className="nft-grid">
@@ -128,7 +128,7 @@ const LandingPage = () => {
                         <div className="status-message success">
                             <p>{mintStatus.success}</p>
                             <a
-                                href={`https://etherscan.io/tx/${mintStatus.txHash}`}
+                                href={`https://sepolia.explorer.mode.network/tx/${mintStatus.txHash}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="tx-link"

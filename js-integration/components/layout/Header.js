@@ -17,6 +17,7 @@ const Header = () => {
             src="/assets/logo.png"
             alt="OTD News Logo"
             fill
+            sizes="1000px"
             style={{ objectFit: 'contain' }}
             priority
           />
