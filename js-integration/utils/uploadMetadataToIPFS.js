@@ -41,10 +41,6 @@ const formatNFTMetadata = (newsData, ipfsImageUrl) => {
       value: newsData.tag
     },
     {
-      trait_type: 'Image URL',
-      value: newsData.image_url
-    },
-    {
       trait_type: 'Description',
       value: newsData.description
     },
@@ -52,14 +48,14 @@ const formatNFTMetadata = (newsData, ipfsImageUrl) => {
       trait_type: 'Creator',
       value: newsData.creator || 'OTD News'
     }
-  ];
+  ].filter(attr => attr.value && attr.value !== ''); // Ensure no empty attributes
 
   // Create metadata object
   return {
     name: newsData.title,
     image: ipfsImageUrl,
-    external_url: newsData.news_url || "", // Use news_url from newsData
-    attributes: attributes.filter(attr => attr.value && attr.value !== ''),
+    external_url: newsData.news_url || "", 
+    attributes: attributes,
     properties: {
       name: newsData.title,
       date: newsData.date,

@@ -5,40 +5,94 @@
 
 import { fetchMetadata } from './fetchMetadata.js';
 import { uploadToIPFS } from './uploadToIPFS.js';
+import { saveIPFSUrls } from '../utils/ipfsStorage.js';
+import * as dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+// Get current directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Load environment variables from the root .env file
+dotenv.config({ path: resolve(__dirname, '../../.env.local') });
+
+// Function to check environment variables
+const checkEnvVariables = () => {
+  const required = ['PINATA_API_KEY', 'PINATA_SECRET_API_KEY'];
+  const missing = required.filter(key => !process.env[key]);
+  if (missing.length > 0) {
+    throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
+  }
+};
 
 // Function to automate NFT creation
 export const automateNFTCreation = async () => {
   try {
-    console.log("Starting NFT automation...");
+    console.log("=== Starting NFT automation ===");
 
-    // Step 1: Generate today's date (in 'yyyy-mm-dd' format)
+    // Check environment variables first
+    console.log("Checking environment variables...");
+    checkEnvVariables();
+    console.log("Environment variables verified ✓");
+
+    // Generate today's date
     const today = new Date();
-    const date = today.toISOString().split('T')[0];  // Example: '2025-02-02'
+    const date = today.toLocaleDateString('en-CA');
+    console.log(`Processing date: ${date}`);
 
-    // Step 2: Fetch breaking news metadata (already in the required format)
+    // Fetch breaking news metadata
+    console.log("Fetching metadata from backend...");
     const metadata = await fetchMetadata(date);
-    console.log("Fetched breaking news and metadata:", metadata);
+    console.log(`Fetched ${metadata ? metadata.length : 0} news items`);
 
-    // Step 3: Process each headline by uploading image + metadata
-    const updatedMetadata = [];
-    
-    for (const news of metadata) {
-      console.log(`Processing news item: ${news.title}`);
-
-      // Upload image and metadata to IPFS
-      const { imageUrl, metadataUrl } = await uploadToIPFS(news);
-      console.log(`Uploaded image and metadata to IPFS: ${imageUrl}, ${metadataUrl}`);
-
-      // Store the updated metadata (optional)
-      updatedMetadata.push({ imageUrl, metadataUrl });
+    if (!metadata || metadata.length === 0) {
+      throw new Error("No metadata received from backend");
     }
 
-    console.log("All news items processed successfully!");
+    // Process each headline
+    console.log("\nStarting to process news items:");
+    const updatedMetadata = [];
 
-    return updatedMetadata; // Optionally return the final result
+    for (const [index, news] of metadata.entries()) {
+      console.log(`\n[${index + 1}/${metadata.length}] Processing: "${news.title}"`);
 
+      try {
+        // Upload image and metadata to IPFS
+        const result = await uploadToIPFS(news);
+        console.log(`- IPFS Image URL: ${result.imageUrl}`);
+        console.log(`- IPFS Metadata URL: ${result.metadataUrl}`);
+
+        // Save IPFS URLs to local storage
+        await saveIPFSUrls(news, result.imageUrl, result.metadataUrl);
+
+        updatedMetadata.push({
+          ...result,
+          metadata: news
+        });
+      } catch (itemError) {
+        console.error(`Error processing item ${index + 1}:`, itemError);
+        // Continue with next item instead of stopping the whole process
+        continue;
+      }
+    }
+
+    console.log("\n=== NFT automation completed successfully! ===");
+    console.log(`Processed ${updatedMetadata.length} items`);
+
+    return updatedMetadata;
   } catch (error) {
-    console.error("Error during NFT automation:", error);
+    console.error("\n❌ Error during NFT automation:", error);
     throw error;
   }
 };
+
+// Auto-execute if run directly
+if (import.meta.url === new URL(import.meta.resolve('./nftAutomation.js')).href) {
+  automateNFTCreation()
+    .then(() => process.exit(0))
+    .catch((error) => {
+      console.error("Failed to complete NFT automation:", error);
+      process.exit(1);
+    });
+}

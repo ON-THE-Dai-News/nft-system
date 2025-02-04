@@ -1,60 +1,56 @@
 .layout {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .header {
-    background-color: #fff;
-    border-bottom: 1px solid #eaeaea;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  
-    .header-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-  
-      @include tablet {
-        padding: 1rem 2rem;
-      }
-    }
-  
-    .logo h1 {
-      font-size: 1.5rem;
-      margin: 0;
-    }
-  }
-  
-  .main-content {
-    flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+// components/layout/Header.scss
+
+.header {
+  padding: 1rem 2rem;
+  background: #131214;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .header-content {
     max-width: 1200px;
     margin: 0 auto;
-    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+
+    .logo-container {
+      position: relative;
+      width: 200px; // Adjust this to your desired width
+      height: 60px; // Adjust this to maintain your logo's aspect ratio
+    }
+  }
+}
+
+.main-content {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 1rem;
+
+  @include tablet {
+    padding: 2rem;
+  }
+}
+
+.footer {
+  background-color: #131214;
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 1rem;
-  
+    text-align: center;
+    color: #858585;
+
     @include tablet {
-      padding: 2rem;
+      padding: 1.5rem 2rem;
     }
   }
-  
-  .footer {
-    background-color: #f9fafb;
-    border-top: 1px solid #eaeaea;
-  
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem;
-      text-align: center;
-      color: #666;
-  
-      @include tablet {
-        padding: 1.5rem 2rem;
-      }
-    }
-  }
+}
