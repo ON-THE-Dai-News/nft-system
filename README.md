@@ -1,5 +1,4 @@
 # OTDNews NFT System
-# OTDNews NFT System
 
 An automated AI-powered NFT creation system that transforms breaking news headlines into NFTs on the Mode Network (Ethereum L2).
 
