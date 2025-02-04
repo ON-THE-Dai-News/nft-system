@@ -1,4 +1,4 @@
-# NFT System
+# OTDNews NFT System
 
 Automated NFT creation system that transforms AI-generated news art into NFTs on Mode Network (Ethereum L2).
 
