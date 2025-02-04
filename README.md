@@ -1,4 +1,5 @@
 # OTDNews NFT System
+# OTDNews NFT System
 
 An automated AI-powered NFT creation system that transforms breaking news headlines into NFTs on the Mode Network (Ethereum L2).
 
@@ -76,39 +77,57 @@ cp .env.example .env
 
 ## Development Guidelines
 
-### Branch Naming
-- `feature/[feature-name]` → New features
-- `fix/[bug-name]` → Bug fixes
-- `update/[update-description]` → General updates
+### Git Workflow
+1. Branch Naming:
+   - `feature/[feature-name]`
+   - `fix/[bug-name]`
+   - `update/[update-description]`
 
-### Commit Messages
-- `feat:` → New feature
-- `fix:` → Bug fix
-- `docs:` → Documentation update
-- `refactor:` → Code restructuring
+2. Commit Messages:
+   - `feat:` (new feature)
+   - `fix:` (bug fix)
+   - `docs:` (documentation)
+   - `style:` (formatting)
+   - `refactor:` (code restructure)
 
-### Pull Request Process
-1. Create a new branch from `main`
-2. Update documentation if necessary
-3. Request a review before merging
-4. Squash & merge after approval
+3. Pull Request Process:
+   - Create branch from main
+   - Update documentation
+   - Request review
+   - Squash and merge
 
-## Next Steps & Future Enhancements
+## Team
+- **Mario:** Fullstack Engineer (System Architecture & Integration)
+- **Bilal:** Backend Engineer (NFT Creation System)
+- **Daniel:** Product Manager (Documentation & Requirements)
 
-### Phase 1 (MVP Features)
-- ✅ Fully automated NFT metadata processing
-- ✅ IPFS storage integration
-- ✅ Mode Smart Contract deployment
-- ✅ Minting interface for users
+## MVP Features (Phase 1)
+- Automated NFT minting
+- Basic metadata handling
+- IPFS/Arweave storage
+- Direct minting interface
+- Error handling and logging
 
-### Phase 2 (Upcoming Features)
-- 🛠️ NFT Marketplace Integration
-- 🔄 Advanced Trading & Transfers
-- 📈 Enhanced Metadata & AI Insights
-- 🌐 Multi-platform NFT Support
+## Testing
+- Smart contract testing
+- Minting process verification
+- Integration testing
+- Error scenario handling
 
-## Contributors
+## Communication
+- Daily Telegram updates
+- Technical discussion channel
+- Documentation sharing
+- Progress tracking
 
-- **Mario:** Fullstack Engineer
-- **Daniel** Product Manager
-- **Bilal** Backend Engineer
+## Next Steps
+1. Mode Network environment setup
+2. Smart contract development
+3. Minting service creation
+4. Integration testing
+
+## Future Plans (Phase 2)
+- Marketplace integration
+- Advanced trading features
+- Enhanced metadata
+- Additional marketplace support
