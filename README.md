@@ -41,7 +41,7 @@ An automated AI-powered NFT creation system that transforms breaking news headli
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-org/nft-system.git
+git clone https://github.com/ON-THE-Dai-News/nft-system.git
 cd nft-system
 cd js-integration
 ```
