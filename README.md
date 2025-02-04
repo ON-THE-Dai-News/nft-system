@@ -1,136 +1,114 @@
-# NFT System
+# OTDNews NFT System
 
-Automated NFT creation system that transforms AI-generated news art into NFTs on Mode Network (Ethereum L2).
+An automated AI-powered NFT creation system that transforms breaking news headlines into NFTs on the Mode Network (Ethereum L2).
 
 ## Overview
-- **Project Duration:** 2 weeks (Phase 1)
-- **Primary Goal:** Automated NFT creation system for AI-generated news art
-- **Platform:** Mode Network (Ethereum L2)
 
-## Technical Stack
+- **Project Objective:** Fully automated NFT generation and minting process for AI-generated news-based art
+- **Blockchain:** Mode Network (Ethereum L2)
+- **Storage:** IPFS (via Pinata SDK)
+- **AI Agents:** Automated metadata and image prompt generation
+- **Frontend:** React & Next.js
+- **Backend:** Node.js (Express)
 
-### Frontend/Integration (JavaScript)
-- Express.js API
-- React
-- Mode Network SDK (GOAT)
-- Google APIs (Drive, Sheets)
-- Asset management
+## System Architecture
 
-### Backend (Python)
-- Web3.py
-- Mode Network tools
-- Smart contract deployment
-- NFT minting service
+### 1. AI Agents (Metadata & Art)
 
-### Infrastructure
-- Mode Network
-- IPFS/Arweave
-- Google Cloud (existing)
-- Git/GitHub
+- **News Metadata Generator:** Generates structured metadata from breaking news
+- **Image Prompt Generator:** Converts news metadata into AI-generated art prompts
+- **AI Art Interface:** Generates an AI-enhanced image based on the prompt
 
-## Project Structure
-```
-nft-system/
-├── src/              # Frontend/Integration layer
-│   ├── components/   # React components
-│   ├── services/     # API services
-│   ├── contexts/     # React contexts
-│   └── utils/        # Utility functions
-├── server/           # Express.js backend
-├── contracts/        # Smart contracts
-└── docs/            # Documentation
-```
+### 2. Integration Layer (Backend & Processing)
+
+- **Node.js (Express API)** for managing metadata & NFT automation
+- **Pinata SDK** to upload metadata & images to IPFS
+- **Mode Network SDK** for blockchain interaction
+
+### 3. Storage Layer
+
+- **JSON Metadata Storage:** Local JSON files (migrating to AWS S3)
+- **Decentralized Storage:** IPFS via Pinata SDK
+
+### 4. NFT System (Blockchain & Minting)
+
+- Pre-processed NFT metadata stored on IPFS
+- User triggers minting via frontend UI
+- Mode Smart Contracts handle NFT minting & blockchain interaction
 
 ## Setup Instructions
 
-### Development Environment
-1. Clone the repository
+### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/your-org/nft-system.git
 cd nft-system
+cd js-integration
 ```
 
-2. Frontend Setup
+### 2. Install Dependencies
 ```bash
-# Install dependencies
 npm install
-
-# Start development server
-npm run dev
+npm run dev  # Start Next.js development server
 ```
 
-3. Backend Setup
+### 3. Configure Environment Variables
+
+1. Copy the example env file:
 ```bash
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate  # Unix
-venv\Scripts\activate     # Windows
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Start backend server
-python server/index.py
+cp .env.example .env
 ```
+2. Set up API keys for Pinata, Mode Network, and any other required services
 
-4. Mode Network Setup
-- Configure Mode Network testnet in your Web3 wallet
-- Get testnet tokens from Mode Network faucet
-- Set up environment variables (see .env.example)
+## Workflow & Automation
+
+### Automated NFT Processing (Runs Daily at 12:30 AM EST)
+
+1. Fetch news metadata from JSON storage
+2. Upload image & metadata to IPFS (Pinata SDK)
+3. Store pre-processed NFT metadata for minting
+
+### User Minting Process (After 1 AM EST)
+
+1. User connects wallet to the Next.js frontend
+2. Selects an available NFT and clicks "Mint Random NFT"
+3. Smart contract finalizes minting on Mode Network
 
 ## Development Guidelines
 
-### Git Workflow
-1. Branch Naming:
-   - `feature/[feature-name]`
-   - `fix/[bug-name]`
-   - `update/[update-description]`
+### Branch Naming
+- `feature/[feature-name]` → New features
+- `fix/[bug-name]` → Bug fixes
+- `update/[update-description]` → General updates
 
-2. Commit Messages:
-   - `feat:` (new feature)
-   - `fix:` (bug fix)
-   - `docs:` (documentation)
-   - `style:` (formatting)
-   - `refactor:` (code restructure)
+### Commit Messages
+- `feat:` → New feature
+- `fix:` → Bug fix
+- `docs:` → Documentation update
+- `refactor:` → Code restructuring
 
-3. Pull Request Process:
-   - Create branch from main
-   - Update documentation
-   - Request review
-   - Squash and merge
+### Pull Request Process
+1. Create a new branch from `main`
+2. Update documentation if necessary
+3. Request a review before merging
+4. Squash & merge after approval
 
-## Team
-- **Mario:** Fullstack Engineer (System Architecture & Integration)
-- **Bilal:** Backend Engineer (NFT Creation System)
-- **Daniel:** Product Manager (Documentation & Requirements)
+## Next Steps & Future Enhancements
 
-## MVP Features (Phase 1)
-- Automated NFT minting
-- Basic metadata handling
-- IPFS/Arweave storage
-- Direct minting interface
-- Error handling and logging
+### Phase 1 (MVP Features)
+- ✅ Fully automated NFT metadata processing
+- ✅ IPFS storage integration
+- ✅ Mode Smart Contract deployment
+- ✅ Minting interface for users
 
-## Testing
-- Smart contract testing
-- Minting process verification
-- Integration testing
-- Error scenario handling
+### Phase 2 (Upcoming Features)
+- 🛠️ NFT Marketplace Integration
+- 🔄 Advanced Trading & Transfers
+- 📈 Enhanced Metadata & AI Insights
+- 🌐 Multi-platform NFT Support
 
-## Communication
-- Daily Telegram updates
-- Technical discussion channel
-- Documentation sharing
-- Progress tracking
+## Contributors
 
-## Next Steps
-1. Mode Network environment setup
-2. Smart contract development
-3. Minting service creation
-4. Integration testing
-
-## Future Plans (Phase 2)
-- Marketplace integration
-- Advanced trading features
-- Enhanced metadata
-- Additional marketplace support
+- **Mario:** Fullstack Engineer
+- **Daniel** Product Manager
+- **Bilal** Backend Engineer
