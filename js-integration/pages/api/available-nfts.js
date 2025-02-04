@@ -3,56 +3,69 @@
 ========================*/
 // pages/api/available-nfts.js
 
+import { getAllIPFSUrls } from '../../utils/ipfsStorage';
+
 export default async function handler(req, res) {
     if (req.method !== 'GET') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
     try {
-        // Get current date in the format you need
+        // Fetch news data
         const today = new Date();
-        const date = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
-        
+        const date = today.toLocaleDateString('en-CA');
         const backendUrl = `http://localhost:5000/backups/activeNewsInfo_${date}.json`;
-        console.log('Attempting to fetch from:', backendUrl);
-
+        
         const response = await fetch(backendUrl);
+        let newsData;
         
         if (!response.ok) {
-            // If file doesn't exist for today, try yesterday
             const yesterday = new Date(today);
             yesterday.setDate(yesterday.getDate() - 1);
-            const yesterdayDate = yesterday.toISOString().split('T')[0];
-            
+            const yesterdayDate = yesterday.toLocaleDateString('en-CA');
             const fallbackUrl = `http://localhost:5000/backups/activeNewsInfo_${yesterdayDate}.json`;
-            console.log('Trying fallback URL:', fallbackUrl);
             
             const fallbackResponse = await fetch(fallbackUrl);
-            
             if (!fallbackResponse.ok) {
-                throw new Error(`Failed to fetch NFTs. Status: ${response.status}. 
-                    Fallback status: ${fallbackResponse.status}`);
+                throw new Error('Failed to fetch NFTs');
             }
-            
-            const fallbackData = await fallbackResponse.json();
-            return res.status(200).json({ 
-                nfts: fallbackData,
-                timestamp: new Date().toISOString(),
-                note: 'Using data from previous day'
-            });
+            newsData = await fallbackResponse.json();
+        } else {
+            newsData = await response.json();
         }
 
-        const newsData = await response.json();
+        // Get stored IPFS URLs
+        const ipfsData = await getAllIPFSUrls();
+
+        // Combine news data with IPFS URLs
+        const enhancedNFTs = newsData.map(item => {
+            const storedData = ipfsData[item.page_id];
+            
+            if (!storedData) {
+                console.warn(`No IPFS data found for page_id ${item.page_id}`);
+            }
+
+            return {
+                ...item,
+                ipfs_metadata_url: storedData?.ipfs_metadata_url || null,
+                ipfs_image_url: storedData?.ipfs_image_url || null,
+                properties: {
+                    page_id: item.page_id,
+                    date: item.date,
+                    creator: item.creator
+                }
+            };
+        });
+
         return res.status(200).json({ 
-            nfts: newsData,
+            nfts: enhancedNFTs,
             timestamp: new Date().toISOString()
         });
     } catch (error) {
-        console.error('Error fetching available NFTs:', error);
+        console.error('Error in available-nfts:', error);
         res.status(500).json({ 
-            error: 'Failed to fetch available NFTs',
-            message: error.message,
-            details: 'Please ensure the backend server is running on port 5000'
+            error: 'Failed to fetch NFTs',
+            message: error.message
         });
     }
 }

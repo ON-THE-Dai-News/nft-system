@@ -24,28 +24,22 @@ const pinata = new pinataSDK(
 );
 
 // Function to upload image to IPFS
-export const uploadImageToIPFS = async (imageUrl, metadata) => {
+export const uploadImageToIPFS = async (imageData, metadata) => {
     try {
-        // Step 1: Download the image as a buffer
-        const response = await axios({
-            url: imageUrl,
-            method: 'GET',
-            responseType: 'arraybuffer',
-        });
-
-        const imageBuffer = Buffer.from(response.data);
+        // Convert base64 to buffer
+        const imageBuffer = Buffer.from(imageData, 'base64');
 
         // Convert buffer to readable stream
         const readableStream = stream.Readable.from(imageBuffer);
 
-        // Step 2: Upload image to IPFS via Pinata
+        // Upload image to IPFS via Pinata
         const ipfsResponse = await pinata.pinFileToIPFS(readableStream, {
             pinataMetadata: {
                 name: `${metadata.page_id}.png`,
             },
         });
 
-        // Step 3: Construct IPFS URL
+        // Construct IPFS URL
         const ipfsImageUrl = `https://gateway.pinata.cloud/ipfs/${ipfsResponse.IpfsHash}`;
         console.log('Image uploaded to IPFS:', ipfsImageUrl);
 
